@@ -1,0 +1,47 @@
+def es_numero_decimal(cadena):
+    #Verifica si la cadena representa un número decimal
+    puntos = 0
+    if cadena == "" or cadena[0] == '-':
+        return False
+   
+    for caracter in cadena:
+        if caracter == '.':
+            puntos += 1
+        if caracter != '.' and caracter not in '0123456789':
+            return False
+        if puntos > 1:
+            return False
+    return True
+
+
+def obtener_input(mensaje):
+    #Obtiene un input válido del usuario
+    while True:
+        entrada = input(mensaje)
+        if es_numero_decimal(entrada):
+            return float(entrada)
+
+
+def main():
+    saldo = obtener_input("Ingrese el saldo inicial: ")
+    while True:
+        opcion = input("\n1 - Ingresar dinero\n2 - Retirar dinero\n3 - Mostrar saldo\n4 - Salir\nSeleccione una opción: ")
+        if opcion == '1':
+            saldo += obtener_input("Ingrese la cantidad a depositar: ")
+        elif opcion == '2':
+            cantidad = obtener_input("Ingrese la cantidad a retirar: ")
+            if cantidad <= saldo:
+                saldo -= cantidad
+            else:
+                print("Fondos insuficientes.")
+        elif opcion == '3':
+            print(f"Saldo actual: {saldo}")
+        elif opcion == '4':
+            print("¡Adiós!")
+            break
+        else:
+            print("No válido.")
+
+
+if __name__ == "__main__":
+    main()
