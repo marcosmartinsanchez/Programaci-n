@@ -1,0 +1,64 @@
+def mostrar_cuadrado(lado):
+    #Pone el cuadrado en forma de texto
+    for _ in range(lado):
+        print('* ' * lado)
+
+
+def mostrar_rectangulo(base, altura):
+    #Pone el rectángulo en forma de texto
+    for _ in range(altura):
+        print('* ' * base)
+
+
+def calcular_area_cuadrado(lado):
+    #Calcula el área del cuadrado
+    return lado ** 2
+
+
+def calcular_perimetro_cuadrado(lado):
+    #Calcula el perímetro del cuadrado.
+    return 4 * lado
+
+
+def calcular_area_rectangulo(base, altura):
+    #Calcula el área del rectángulo.
+    return base * altura
+
+
+def calcular_perimetro_rectangulo(base, altura):
+    #Calcula el perímetro del rectángulo
+    return 2 * (base + altura)
+
+
+def menu():
+    #Aparece el menú y solicita la elección
+    while True:
+        print("\nElige una figura:")
+        print("1 - Cuadrado")
+        print("2 - Rectángulo")
+       
+        opcion = input("Elige su opción (1 o 2): ")
+       
+        if opcion == '1':
+            lado = float(input("Ponga el lado del cuadrado: "))
+            mostrar_cuadrado(int(lado))
+            area = calcular_area_cuadrado(lado)
+            perimetro = calcular_perimetro_cuadrado(lado)
+            print(f"Área del cuadrado: {area}")
+            print(f"Perímetro del cuadrado: {perimetro}")
+            break  # Sale del bucle si se elige cuadrado
+        elif opcion == '2':
+            base = float(input("Ponga la base del rectángulo: "))
+            altura = float(input("Ponga la altura del rectángulo: "))
+            mostrar_rectangulo(int(base), int(altura))
+            area = calcular_area_rectangulo(base, altura)
+            perimetro = calcular_perimetro_rectangulo(base, altura)
+            print(f"Área del rectángulo: {area}")
+            print(f"Perímetro del rectángulo: {perimetro}")
+            break  # Sale del bucle si se elige rectángulo
+        else:
+            print("Incorrecto. Intentelo de nuevo.")
+
+
+if __name__ == "__main__":
+    menu()
