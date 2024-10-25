@@ -1,0 +1,64 @@
+import time
+
+
+def obtener_turno_usuario():
+    #Solicita al usuario que elija entre piedra, papel o tijera
+    while True:
+        print("\Pon una opción:")
+        print("1 - Piedra")
+        print("2 - Papel")
+        print("3 - Tijera")
+       
+        turno = input("Pon una opción (1, 2 o 3): ")
+       
+        if turno in ['1', '2', '3']:  #Verifica si la entrada es válida
+            return int(turno)
+        else:
+            print("No válido. Intentalo de nuevo.")
+
+
+def obtener_turno_maquina():
+    #Genera un turno para la máquina de manera determinista
+    #Utiliza el tiempo actual para generar un turno
+    tiempo = int(time.time() % 3) + 1
+    return tiempo
+
+
+def determinar_resultado(usuario, maquina):
+    #Determina el resultado del juego
+    if usuario == maquina:
+        return "Empate"
+    elif (usuario == 1 and maquina == 3) or (usuario == 2 and maquina == 1) or (usuario == 3 and maquina == 2):
+        return "Ganaste"
+    else:
+        return "Perdiste"
+
+
+def juego():
+    #Función principal del juego.
+    print("¡Bienvenido al juego de Piedra, Papel o Tijera!")
+   
+    victorias = 0
+    while victorias < 3:
+        turno_usuario = obtener_turno_usuario()
+        turno_maquina = obtener_turno_maquina()
+       
+        opciones = {1: "Piedra", 2: "Papel", 3: "Tijera"}
+       
+        print(f"\nTu turno: {opciones[turno_usuario]}")
+        print(f"Turno de la máquina: {opciones[turno_maquina]}")
+       
+        resultado = determinar_resultado(turno_usuario, turno_maquina)
+        print(f"Resultado: {resultado}")
+       
+        if resultado == "Ganaste":
+            victorias += 1
+            print(f"Victorias: {victorias}")
+        else:
+            print("Sigue intentándolo")
+   
+    print("¡Enhorabuena! Has ganado 3 veces.")
+
+
+if __name__ == "__main__":
+    juego()
