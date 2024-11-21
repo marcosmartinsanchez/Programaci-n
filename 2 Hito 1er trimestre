@@ -1,0 +1,114 @@
+clientes = {}
+pedidos = {}
+productos_disponibles = {
+    1: "Producto A",
+    2: "Producto B",
+    3: "Producto C"
+}
+contador_pedidos = 0
+
+def registrar_cliente(): # Creamos esta función para registrar un nuevo cliente.
+    nombre = input("Ingresa el nombre del cliente: ")
+    email = input("Ingres el email del cliente: ")
+    
+    if email in clientes:
+        print("Error: El email ya está registrado.")
+        return
+    
+    clientes[email] = {
+        "nombre": nombre,
+        "email": email
+    }
+    print(f"Cliente '{nombre}' registrado con éxito.")
+
+def mostrar_clientes(): # Esta funcion se crea para mostrar todos los clientes registrados
+    if clientes:
+        print("Clientes registrados:")
+        for cliente in clientes.values():
+            print(f"Nombre: {cliente['nombre']}, Email: {cliente['email']}")
+    else:
+        print("No hay clientes registrados.")
+
+def buscar_cliente(): # Esta funcion la creamos para buscar un cliente por su email.
+    email = input("Ingresa el email del cliente a buscar: ")
+    if email in clientes:
+        cliente = clientes[email]
+        print(f"Cliente encontrado: Nombre: {cliente['nombre']}, Email: {cliente['email']}")
+    else:
+        print("Cliente no encontrado.")
+
+def realizar_compra(): # Esta funcion es para realizar una compra.
+    global contador_pedidos
+    email = input("Ingresa el email del cliente que realiza la compra: ")
+    
+    if email not in clientes:
+        print("Error: Cliente no registrado.")
+        return
+    
+    print("Productos disponibles:")
+    for id_producto, nombre_producto in productos_disponibles.items():
+        print(f"{id_producto}. {nombre_producto}")
+    
+    productos_seleccionados = []
+    while True:
+        id_producto = int(input("Ingresa el ID del producto a comprar (0 para finalizar): "))
+        if id_producto == 0:
+            break
+        if id_producto in productos_disponibles:
+            productos_seleccionados.append(productos_disponibles[id_producto])
+        else:
+            print("ID de producto no válido.")
+    
+    if productos_seleccionados:
+        contador_pedidos += 1
+        pedidos[contador_pedidos] = {
+            "cliente": clientes[email],
+            "productos": productos_seleccionados
+        }
+        print(f"Compra realizada con éxito. Número de pedido: {contador_pedidos}.")
+    else:
+        print("No se seleccionaron productos para la compra.")
+
+def seguimiento_compra(): # Esta funcion es para hacer seguimiento de una compra.
+    numero_pedido = int(input("Ingresa el número de pedido para seguimiento: "))
+    if numero_pedido in pedidos:
+        pedido = pedidos[numero_pedido]
+        cliente = pedido["cliente"]
+        productos = pedido["productos"]
+        print(f"Detalles del pedido {numero_pedido}:")
+        print(f"Cliente: {cliente['nombre']} (Email: {cliente['email']})")
+        print("Productos comprados:")
+        for producto in productos:
+            print(f"- {producto}")
+    else:
+        print("Número de pedido no encontrado.")
+
+def menu(): # Esta función muestra el menu y gestiona la selección de ulsuario.
+    while True:
+        print("\n--- Menú de Gestión de Pedidos ---")
+        print("1. Registrar Cliente")
+        print("2. Mostrar Clientes Registrados")
+        print("3. Buscar Cliente")
+        print("4. Realizar Compra")
+        print("5. Seguimiento de Compra")
+        print("6. Salir")
+        opcion = input("Seleccion una opción: ")
+
+        if opcion == '1':
+            registrar_cliente()
+        elif opcion == '2':
+            mostrar_clientes()
+        elif opcion == '3':
+            buscar_cliente()
+        elif opcion == '4':
+            realizar_compra()
+        elif opcion == '5':
+            seguimiento_compra()
+        elif opcion == '6':
+            print("Saliendo de la aplicación.")
+            break
+        else:
+            print("Opción no válida. Intente nuevamente.")
+
+if __name__ == "__main__":
+    menu()
