@@ -1,0 +1,60 @@
+package cine;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class Cine {
+    private static final String url = "jdbc:mysql://localhost:3307/cine_marcosmartin";
+    private static final String usuario = "root";
+    private static final String contraseña = ""; 
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int opcion;
+        // Menú de opciones para el usuario
+        do {
+            System.out.println("Menú:");
+            System.out.println("1 - Ver películas");
+            System.out.println("2 - Salir");
+            System.out.print("Elige una opción: ");
+            opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    verPeliculas();
+                    break;
+                case 2:
+                    System.out.println("Saliendo");
+                    break;
+               
+            }
+        } while (opcion != 2);
+
+        scanner.close();
+    }
+    // Método para mostrar las películas y sus funciones
+    private static void verPeliculas() {
+        try (Connection conexion = DriverManager.getConnection(url, usuario, contraseña);
+             Statement stmt = conexion.createStatement()) {
+
+            String sql = "SELECT p.titulo, p.director, p.año, p.genero, f.fecha, f.hora " +
+                         "FROM peliculas p " +
+                         "JOIN funciones f ON p.id = f.id_pelicula";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            System.out.printf("%-30s %-20s %-5s %-15s %-10s %-8s%n", "Título", "Director", "Año", "Género", "Fecha", "Hora");
+            System.out.println("");
+            while (rs.next()) {
+                System.out.printf("%-30s %-20s %-5d %-15s %-10s %-8s%n",
+                        rs.getString("titulo"),
+                        rs.getString("director"),
+                        rs.getInt("año"),
+                        rs.getString("genero"),
+                        rs.getDate("fecha"),
+                        rs.getTime("hora"));
+            }
+        } catch (SQLException e) {
+ System.out.println("Error al acceder a la base de datos: " + e.getMessage());
+        }
+    }
+}
